@@ -33,6 +33,12 @@ async function run() {
 
     const itemCollection = client.db('addItemDB').collection('addItem')
 
+    app.get('/addItem', async(req, res) =>{
+      const cursor = itemCollection.find();
+      const result = await cursor.toArray();
+      res.send(result)
+    })
+
 
     app.post('/addItem', async(req, res) =>{
       const newAddItem = req.body;
