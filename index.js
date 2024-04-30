@@ -78,6 +78,8 @@ async function run() {
     res.send(result)
    })
 
+  
+
 
    app.get('/myList/details/:id', async(req, res)=>{
     const id = req.params.id 
