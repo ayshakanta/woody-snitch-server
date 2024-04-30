@@ -40,7 +40,20 @@ async function run() {
       res.send(result)
     })
 
+    app.get('/allItem', async(req, res) =>{
+      const cursor = itemCollection.find();
+      const result = await cursor.toArray()
+      res.send(result)
+    })
+
     app.get('/addItem/:id', async(req, res) => {
+      const id = req.params.id ;
+      const query = {_id: new ObjectId(id)}
+      const result = await itemCollection.findOne(query) ;
+      res.send(result);
+    })
+
+    app.get('/allItem/:id', async(req, res) => {
       const id = req.params.id ;
       const query = {_id: new ObjectId(id)}
       const result = await itemCollection.findOne(query) ;
@@ -56,11 +69,29 @@ async function run() {
       res.send(result);
     })
 
-   app.get("/myList/:email", async(req, res) =>{
+   app.get('/myList/:email', async(req, res) =>{
     console.log(req.params.email)
     const result = await itemCollection.find({userEmail: req.params.email}).toArray()
     res.send(result)
    })
+
+
+   app.get('/myList/details/:id', async(req, res)=>{
+    const id = req.params.id 
+    const query = {_id: new ObjectId(id)}
+    
+    const result = await itemCollection.findOne(query)
+    res.send(result)
+   })
+
+   app.delete('/myList/:id', async(req, res) =>{
+    const id = req.params.id 
+    const query = {_id: new ObjectId(id)}
+    const result = await itemCollection.deleteOne(query)
+    res.send(result)
+   })
+
+
 
 
 
