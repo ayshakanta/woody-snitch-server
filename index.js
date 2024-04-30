@@ -32,6 +32,7 @@ async function run() {
     // await client.connect();
 
     const itemCollection = client.db('addItemDB').collection('addItem')
+    
 
     app.get('/addItem', async(req, res) =>{
       const cursor = itemCollection.find();
@@ -54,6 +55,13 @@ async function run() {
       const result = await itemCollection.insertOne(newAddItem)
       res.send(result);
     })
+
+   app.get("/myList/:email", async(req, res) =>{
+    console.log(req.params.email)
+    const result = await itemCollection.find({userEmail: req.params.email}).toArray()
+    res.send(result)
+   })
+
 
 
     // Send a ping to confirm a successful connection
