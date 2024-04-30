@@ -69,6 +69,9 @@ async function run() {
       res.send(result);
     })
 
+
+    
+
    app.get('/myList/:email', async(req, res) =>{
     console.log(req.params.email)
     const result = await itemCollection.find({userEmail: req.params.email}).toArray()
@@ -90,6 +93,30 @@ async function run() {
     const result = await itemCollection.deleteOne(query)
     res.send(result)
    })
+
+
+   app.put('/myList/:id' , async(req, res) =>{
+    const id = req.params.id
+    const filter = {_id: new ObjectId(id)}
+    const options = {upsert: true} 
+    const updatedItem = req.body
+    const newItem = {
+      $set: {
+           name: updatedItem.name,
+           imageUrl: updatedItem.imageUrl,
+           price: updatedItem.price,
+           rating: updatedItem.rating,
+           stockStatus: updatedItem.stockStatus,
+           subcategory:updatedItem.subcategory,
+           description: updatedItem.description,
+           time: updatedItem.time,
+           customization: updatedItem.customization,
+      }
+    }
+
+    const result = await itemCollection.updateOne(filter, newItem, options)
+    res.send(result)
+   } )
 
 
 
